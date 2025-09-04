@@ -35,23 +35,71 @@ function getRoundResults(userOption) {
 const playerScoreSpanElement = document.getElementById("player-score");
 const computerScoreSpanElement = document.getElementById("computer-score");
 const roundResultsMsg = document.getElementById("results-msg");
+const winnerMsgElement = document.getElementById("winner-msg");
+const optionsContainer = document.querySelector(".options-container");
+const resultsContainer = document.querySelector(".results-container");
+const resetGameBtn = document.getElementById("reset-game-btn");
 
 function showResults(userOption) {
-  roundResultsMsg.innerText = getRoundResults(userOption);
+  const message = getRoundResults(userOption);
+  roundResultsMsg.innerText = message;
+  resultsContainer.style.display = message ? "block" : "none";
+  roundResultsMsg.classList.remove("reveal");
+  // trigger reflow to restart animation
+  void roundResultsMsg.offsetWidth;
+  roundResultsMsg.classList.add("reveal");
   playerScoreSpanElement.innerText = playerScore;
   computerScoreSpanElement.innerText = computerScore;
+  // bump the score that changed
+  if (message.startsWith("Player wins!")) {
+    playerScoreSpanElement.classList.remove("bump");
+    void playerScoreSpanElement.offsetWidth;
+    playerScoreSpanElement.classList.add("bump");
+  } else if (message.startsWith("Computer wins!")) {
+    computerScoreSpanElement.classList.remove("bump");
+    void computerScoreSpanElement.offsetWidth;
+    computerScoreSpanElement.classList.add("bump");
+  }
+
+  if (playerScore >= 3 || computerScore >= 3) {
+    winnerMsgElement.innerText = `${
+      playerScore >= 3 ? "Player" : "Computer"
+    } has won the game!`;
+    winnerMsgElement.classList.remove("glow");
+    void winnerMsgElement.offsetWidth;
+    winnerMsgElement.classList.add("glow");
+
+    resetGameBtn.style.display = "block";
+    optionsContainer.style.display = "none";
+  }
 }
 
 const rockBtn = document.getElementById("rock-btn");
-const paperbtn = document.getElementById("paper-btn");
+const paperBtn = document.getElementById("paper-btn");
 const scissorsBtn = document.getElementById("scissors-btn");
 
 rockBtn.addEventListener("click", function () {
   showResults("Rock");
 });
-paperbtn.addEventListener("click", function () {
+paperBtn.addEventListener("click", function () {
   showResults("Paper");
 });
 scissorsBtn.addEventListener("click", function () {
   showResults("Scissors");
+});
+
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+  computerScoreSpanElement.innerText = computerScore;
+  playerScoreSpanElement.innerText = playerScore;
+  optionsContainer.style.display = "block";
+  resetGameBtn.style.display = "none";
+  roundResultsMsg.innerText = "";
+  resultsContainer.style.display = "none";
+  winnerMsgElement.innerText = "";
+}
+
+resetGameBtn.addEventListener("click", function () {
+  resetGame();
 });

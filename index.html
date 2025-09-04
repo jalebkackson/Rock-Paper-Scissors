@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock, Paper, Scissors game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -29,13 +35,13 @@
       </details>
 
       <div class="score-container">
-        <strong
-          >Player Score: <span class="score" id="player-score">0</span></strong
-        >
-        <strong
-          >Computer Score:
-          <span class="score" id="computer-score">0</span></strong
-        >
+        <div class="score-card">
+          <strong>Player</strong> <span class="score" id="player-score">0</span>
+        </div>
+        <div class="score-card">
+          <strong>Computer</strong>
+          <span class="score" id="computer-score">0</span>
+        </div>
       </div>
 
       <section class="options-container">
